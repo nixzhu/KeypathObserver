@@ -13,18 +13,27 @@ import UIKit
 class KeypathObserverTests: XCTestCase {
 
     var view: UIView?
-    var frameObserver: KeypathObserver<UIView>?
+    var centerObserver: KeypathObserver<UIView, CGPoint>?
+    var colorObserver: KeypathObserver<UIView, UIColor>?
 
     func testKeypathObserver() {
 
         let view = UIView()
 
-        self.frameObserver = KeypathObserver(object: view, keypath: "frame") { view in
-            print("view.frame: \(view.frame)")
+        self.centerObserver = KeypathObserver(object: view, keypath: "center", valueTransformer: { ($0 as? NSValue)?.CGPointValue() }) { oldCenter, newCenter in
+            print("oldCenter: \(oldCenter)")
+            print("newCenter: \(newCenter)")
         }
 
-        view.frame = CGRect(x: 50, y: 100, width: 100, height: 100)
-        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        view.center = CGPoint(x: 100, y: 100)
+        view.center = CGPoint(x: 200, y: 50)
+
+        self.colorObserver = KeypathObserver(object: view, keypath: "backgroundColor", valueTransformer: { $0 as? UIColor }, valueUpdated: { newColor in
+            print("newColor: \(newColor)")
+        })
+
+        view.backgroundColor = UIColor.redColor()
+        view.backgroundColor = nil
 
         self.view = view
     }

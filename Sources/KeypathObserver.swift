@@ -8,13 +8,19 @@
 
 import Foundation
 
-final public class KeypathObserver<Object: NSObject>: NSObject {
+final public class KeypathObserver<Object: NSObject, Value>: NSObject {
 
-    weak var object: Object?
-    var keypath: String
+    private weak var object: Object?
+    private var keypath: String
 
-    public typealias ValueChanged = (object: Object) -> Void
-    var valueChanged: ValueChanged?
+    public typealias ValueTransformer = (originalValue: AnyObject) -> Value?
+    private var valueTransformer: ValueTransformer
+
+    public typealias ValueChanged = (oldValue: Value?, newValue: Value?) -> Void
+    private var valueChanged: ValueChanged?
+
+    public typealias ValueUpdated = (newValue: Value?) -> Void
+    private var valueUpdated: ValueUpdated?
 
     private var kvoContext: Int = 1
 
@@ -22,15 +28,28 @@ final public class KeypathObserver<Object: NSObject>: NSObject {
         object?.removeObserver(self, forKeyPath: keypath)
     }
 
-    public init(object: Object, keypath: String, valueChanged: ValueChanged) {
+    public init(object: Object, keypath: String, options: NSKeyValueObservingOptions? = nil, valueTransformer: ValueTransformer, valueChanged: ValueChanged) {
 
         self.object = object
         self.keypath = keypath
+        self.valueTransformer = valueTransformer
         self.valueChanged = valueChanged
 
         super.init()
 
-        object.addObserver(self, forKeyPath: keypath, options: [.New], context: &kvoContext)
+        object.addObserver(self, forKeyPath: keypath, options: options ?? [.Initial, .Old, .New], context: &kvoContext)
+    }
+
+    public init(object: Object, keypath: String, options: NSKeyValueObservingOptions? = nil, valueTransformer: ValueTransformer, valueUpdated: ValueUpdated) {
+
+        self.object = object
+        self.keypath = keypath
+        self.valueTransformer = valueTransformer
+        self.valueUpdated = valueUpdated
+
+        super.init()
+
+        object.addObserver(self, forKeyPath: keypath, options: options ?? [.New], context: &kvoContext)
     }
 
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
@@ -43,8 +62,29 @@ final public class KeypathObserver<Object: NSObject>: NSObject {
             return
         }
 
-        if object == self.object && keypath == self.keypath {
-            self.valueChanged?(object: object)
+        guard object == self.object && keypath == self.keypath, let change = change else {
+            return
+        }
+
+        let oldValue: Value?
+        if let originalOldValue = change[NSKeyValueChangeOldKey] {
+            oldValue = valueTransformer(originalValue: originalOldValue)
+        } else {
+            oldValue = nil
+        }
+
+        let newValue: Value?
+        if let originalNewValue = change[NSKeyValueChangeNewKey] {
+            newValue = valueTransformer(originalValue: originalNewValue)
+        } else {
+            newValue = nil
+        }
+
+        if let valueChanged = self.valueChanged {
+            valueChanged(oldValue: oldValue, newValue: newValue)
+
+        } else {
+            self.valueUpdated?(newValue: newValue)
         }
     }
 }

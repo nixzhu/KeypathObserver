@@ -6,7 +6,7 @@
 //  Copyright © 2016年 nixWork. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for KeypathObserver.
 FOUNDATION_EXPORT double KeypathObserverVersionNumber;

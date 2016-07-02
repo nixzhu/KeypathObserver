@@ -66,13 +66,6 @@ final public class KeypathObserver<Object: NSObject, Value>: NSObject {
             return
         }
 
-        let oldValue: Value?
-        if let originalOldValue = change[NSKeyValueChangeOldKey] {
-            oldValue = valueTransformer(originalValue: originalOldValue)
-        } else {
-            oldValue = nil
-        }
-
         let newValue: Value?
         if let originalNewValue = change[NSKeyValueChangeNewKey] {
             newValue = valueTransformer(originalValue: originalNewValue)
@@ -81,6 +74,14 @@ final public class KeypathObserver<Object: NSObject, Value>: NSObject {
         }
 
         if let valueChanged = self.valueChanged {
+
+            let oldValue: Value?
+            if let originalOldValue = change[NSKeyValueChangeOldKey] {
+                oldValue = valueTransformer(originalValue: originalOldValue)
+            } else {
+                oldValue = nil
+            }
+
             valueChanged(oldValue: oldValue, newValue: newValue)
 
         } else {

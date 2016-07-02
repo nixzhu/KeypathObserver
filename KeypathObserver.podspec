@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   s.name        = "KeypathObserver"
   s.version     = "0.5.0"
-  s.summary     = "KeypathObserver helps you do KVO observing."
+  s.summary     = "Make KVO observing easier."
 
   s.description = <<-DESC
                    KVO observing with simple syntax.

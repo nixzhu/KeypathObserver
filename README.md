@@ -9,7 +9,7 @@ KVO observing with simple syntax.
 
 ## Requirements
 
-Swift 2.2, iOS 8.0
+Swift 2.3, iOS 8.0
 
 ## Example
 
@@ -62,13 +62,13 @@ It's recommended to use CocoaPods or Carthage.
 ### CocoaPods
 
 ``` ogdl
-pod 'KeypathObserver', '~> 0.5.0'
+pod 'KeypathObserver', '~> 0.6.0'
 ```
 
 ### Carthage
 
 ```ogdl
-github "nixzhu/KeypathObserver" >= 0.5.0
+github "nixzhu/KeypathObserver" >= 0.6.0
 ```
 
 ## Contact

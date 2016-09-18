@@ -10,19 +10,19 @@ import Foundation
 
 final public class KeypathObserver<Object: NSObject, Value>: NSObject {
 
-    fileprivate weak var object: Object?
-    fileprivate var keypath: String
+    private weak var object: Object?
+    private var keypath: String
 
     public typealias ValueTransformer = (_ originalValue: AnyObject) -> Value?
-    fileprivate var valueTransformer: ValueTransformer
+    private var valueTransformer: ValueTransformer
 
     public typealias ValueChanged = (_ oldValue: Value?, _ newValue: Value?) -> Void
-    fileprivate var valueChanged: ValueChanged?
+    private var valueChanged: ValueChanged?
 
     public typealias ValueUpdated = (_ newValue: Value?) -> Void
-    fileprivate var valueUpdated: ValueUpdated?
+    private var valueUpdated: ValueUpdated?
 
-    fileprivate var kvoContext: Int = 1
+    private var kvoContext: Int = 1
 
     deinit {
         object?.removeObserver(self, forKeyPath: keypath)

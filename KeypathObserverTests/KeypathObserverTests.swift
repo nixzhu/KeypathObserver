@@ -23,7 +23,7 @@ class KeypathObserverTests: XCTestCase {
         self.centerObserver = KeypathObserver(
             object: view,
             keypath: "center",
-            valueTransformer: { ($0 as? NSValue)?.CGPointValue },
+            valueTransformer: { ($0 as? NSValue)?.cgPointValue },
             valueChanged: { oldCenter, newCenter in
                 print("oldCenter: \(oldCenter)")
                 print("newCenter: \(newCenter)")

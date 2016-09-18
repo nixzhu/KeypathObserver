@@ -9,7 +9,9 @@ KVO observing with simple syntax.
 
 ## Requirements
 
-Swift 2.3, iOS 8.0
+Swift 3.0, iOS 8.0
+
+(Swift 2.3, use version 0.6.0)
 
 ## Example
 
@@ -57,21 +59,19 @@ class ViewController: UIViewController {
 
 ## Installation
 
-It's recommended to use CocoaPods or Carthage.
-
-### CocoaPods
-
-``` ogdl
-pod 'KeypathObserver', '~> 0.6.0'
-```
-
 ### Carthage
 
 ```ogdl
-github "nixzhu/KeypathObserver" >= 0.6.0
+github "nixzhu/KeypathObserver" >= 1.0.0
 ```
 
-## Contact
+#### CocoaPods
+
+``` ogdl
+pod 'KeypathObserver', '~> 1.0.0'
+```
+
+# Contact
 
 NIX [@nixzhu](https://twitter.com/nixzhu)
 

@@ -22,7 +22,7 @@ class KeypathObserverTests: XCTestCase {
 
         self.centerObserver = KeypathObserver(
             object: view,
-            keypath: "center",
+            keypath: #keyPath(UIView.center),
             valueTransformer: { ($0 as? NSValue)?.cgPointValue },
             valueChanged: { oldCenter, newCenter in
                 print("oldCenter: \(oldCenter)")
@@ -35,7 +35,7 @@ class KeypathObserverTests: XCTestCase {
 
         self.colorObserver = KeypathObserver(
             object: view,
-            keypath: "backgroundColor",
+            keypath: #keyPath(UIView.backgroundColor),
             valueTransformer: { $0 as? UIColor },
             valueUpdated: { newColor in
                 print("newColor: \(newColor)")

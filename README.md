@@ -27,8 +27,8 @@ class ViewController: UIViewController {
 
         self.centerObserver = KeypathObserver(
             object: view,
-            keypath: "center",
-            valueTransformer: { ($0 as? NSValue)?.CGPointValue() },
+            keypath: #keyPath(UIView.center),
+            valueTransformer: { ($0 as? NSValue)?.cgPointValue },
             valueChanged: { oldCenter, newCenter in
                 print("oldCenter: \(oldCenter)")
                 print("newCenter: \(newCenter)")
@@ -40,7 +40,7 @@ class ViewController: UIViewController {
 
         self.colorObserver = KeypathObserver(
             object: view,
-            keypath: "backgroundColor",
+            keypath: #keyPath(UIView.backgroundColor),
             valueTransformer: { $0 as? UIColor },
             valueUpdated: { newColor in
                 print("newColor: \(newColor)")

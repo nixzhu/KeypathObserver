@@ -22,6 +22,11 @@ class ViewController: UIViewController {
     var centerObserver: KeypathObserver<UIView, CGPoint>?
     var colorObserver: KeypathObserver<UIView, UIColor>?
 
+    deinit {
+        centerObserver = nil
+        colorObserver = nil
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
